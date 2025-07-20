@@ -67,9 +67,9 @@ public class RequesterScreen extends AbstractRequesterScreen<RequesterMenu> {
     }
 
     @Override
-    protected RequesterReference getById(long requesterId, String name, long sortBy) {
+    protected RequesterReference getById(long requesterId, String name, long sortBy, int requestLimit) {
         if (requesterReference == null) {
-            requesterReference = new RequesterReference(requesterId, name, sortBy);
+            requesterReference = new RequesterReference(requesterId, name, sortBy, requestLimit);
             refreshList = true;
         }
         return requesterReference;

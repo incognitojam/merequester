@@ -1,6 +1,7 @@
 package com.almostreliable.merequester.requester.abstraction;
 
 import com.almostreliable.merequester.MERequester;
+import com.almostreliable.merequester.core.Config;
 import com.almostreliable.merequester.network.RequesterSyncPacket;
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
 
@@ -122,7 +123,7 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
         tag.putString(UNIQUE_NAME_ID, requestTracker.getName());
         tag.putLong(SORT_BY_ID, requestTracker.getSortBy());
         if (getPlayer() instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag));
+            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag, Config.COMMON.requests.get()));
         }
     }
 
@@ -153,7 +154,7 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
 
         // only send an update if something changed
         if (tag != null && getPlayer() instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag));
+            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag, Config.COMMON.requests.get()));
         }
     }
 

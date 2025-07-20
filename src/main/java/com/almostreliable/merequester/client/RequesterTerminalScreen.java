@@ -150,10 +150,10 @@ public class RequesterTerminalScreen<T extends RequesterTerminalMenu> extends Ab
     }
 
     @Override
-    protected RequesterReference getById(long requesterId, String name, long sortBy) {
+    protected RequesterReference getById(long requesterId, String name, long sortBy, int requestLimit) {
         RequesterReference requester = byId.get(requesterId);
         if (requester == null) {
-            requester = new RequesterReference(requesterId, name, sortBy);
+            requester = new RequesterReference(requesterId, name, sortBy, requestLimit);
             byId.put(requesterId, requester);
             refreshList = true;
         }

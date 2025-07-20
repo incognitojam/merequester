@@ -14,7 +14,7 @@ import io.netty.buffer.ByteBuf;
 
 public record RequesterSyncPacket(
     boolean clearData, long requesterId,
-    CompoundTag data
+    CompoundTag data, int requestLimit
 ) implements CustomPacketPayload {
 
     static final Type<RequesterSyncPacket> TYPE = new Type<>(Utils.getRL("requester_sync"));
@@ -23,15 +23,16 @@ public record RequesterSyncPacket(
         ByteBufCodecs.BOOL, RequesterSyncPacket::clearData,
         ByteBufCodecs.VAR_LONG, RequesterSyncPacket::requesterId,
         ByteBufCodecs.COMPOUND_TAG, RequesterSyncPacket::data,
+        ByteBufCodecs.VAR_INT, RequesterSyncPacket::requestLimit,
         RequesterSyncPacket::new
     );
 
     public static RequesterSyncPacket createClearData() {
-        return new RequesterSyncPacket(true, -1, new CompoundTag());
+        return new RequesterSyncPacket(true, -1, new CompoundTag(), -1);
     }
 
-    public static RequesterSyncPacket createInventory(long requesterId, CompoundTag data) {
-        return new RequesterSyncPacket(false, requesterId, data);
+    public static RequesterSyncPacket createInventory(long requesterId, CompoundTag data, int requestLimit) {
+        return new RequesterSyncPacket(false, requesterId, data, requestLimit);
     }
 
     @Override
@@ -41,7 +42,7 @@ public record RequesterSyncPacket(
 
     public static void handle(RequesterSyncPacket payload, IPayloadContext context) {
         if (Minecraft.getInstance().screen instanceof AbstractRequesterScreen<?> screen) {
-            screen.updateFromMenu(payload.clearData, payload.requesterId, payload.data);
+            screen.updateFromMenu(payload.clearData, payload.requesterId, payload.data, payload.requestLimit);
         }
     }
 }

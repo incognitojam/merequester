@@ -21,12 +21,12 @@ public class RequesterReference implements RequestHost, Comparable<RequesterRefe
     private final long sortBy;
     private final RequestManager requestManager;
 
-    public RequesterReference(long requesterId, String name, long sortBy) {
+    public RequesterReference(long requesterId, String name, long sortBy, int requestLimit) {
         this.requesterId = requesterId;
         this.displayName = name;
         this.searchName = name.toLowerCase();
         this.sortBy = sortBy;
-        requestManager = new RequestManager(this);
+        requestManager = new RequestManager(this, requestLimit);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Not important for a reference.">

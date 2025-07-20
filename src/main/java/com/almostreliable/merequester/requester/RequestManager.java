@@ -48,6 +48,15 @@ public class RequestManager implements MEStorage, GenericInternalInventory, Inte
         }
     }
 
+    public RequestManager(@Nullable RequestHost host, int requestLimit) {
+        this.host = host;
+        this.size = requestLimit;
+        requests = new Request[size];
+        for (var i = 0; i < requests.length; i++) {
+            requests[i] = new Request(host, i);
+        }
+    }
+
     public RequestManager() {
         this(null);
     }

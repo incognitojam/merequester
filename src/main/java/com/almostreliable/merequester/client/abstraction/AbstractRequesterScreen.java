@@ -110,7 +110,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         return Tooltips.getEmptyingTooltip(ButtonToolTips.SetAction, carried, emptyingAction);
     }
 
-    public void updateFromMenu(boolean clearData, long requesterId, CompoundTag data) {
+    public void updateFromMenu(boolean clearData, long requesterId, CompoundTag data, int requestLimit) {
         if (clearData) {
             clear();
             refreshList();
@@ -119,7 +119,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
         var name = data.getString(AbstractRequesterMenu.UNIQUE_NAME_ID);
         var sortBy = data.getLong(AbstractRequesterMenu.SORT_BY_ID);
-        var requests = getById(requesterId, name, sortBy).getRequestManager();
+        var requests = getById(requesterId, name, sortBy, requestLimit).getRequestManager();
 
         for (var i = 0; i < requests.size(); i++) {
             var requestIndex = String.valueOf(i);
@@ -294,7 +294,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
     protected abstract Set<RequesterReference> getByName(String name);
 
-    protected abstract RequesterReference getById(long requesterId, String name, long sortBy);
+    protected abstract RequesterReference getById(long requesterId, String name, long sortBy, int requestLimit);
 
     private void blit(GuiGraphics guiGraphics, int pX, int pY, Rect2i srcRect) {
         guiGraphics.blit(texture, pX, pY, srcRect.getX(), srcRect.getY(), srcRect.getWidth(), srcRect.getHeight());
